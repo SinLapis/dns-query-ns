@@ -23,7 +23,8 @@ object Main {
         logger.info("parsing task param...")
         val param = task!!.param.split(",")
         domains.addAll(param[1].split("+"))
-        dnsServers.addAll(param[2].split("+"))
+//        dnsServers.addAll(param[2].split("+"))
+        dnsServers.add(param[2].split("+")[0])
     }
 
     private fun execute(): List<DNSRR> {
@@ -31,6 +32,7 @@ object Main {
         logger.info("constructing DNS queries...")
         for (d in domains) {
             for (s in dnsServers) {
+                if (s == "") continue
                 val aRecordLookup = Lookup(d, Type.A)
                 aRecordLookup.setResolver(SimpleResolver(s))
                 aRecordLookup.run()
