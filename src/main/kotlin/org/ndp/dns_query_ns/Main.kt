@@ -45,20 +45,21 @@ object Main {
         logger.info("parsing DNS rr...")
         val results = ArrayList<DNSRR>()
         for (q in dnsQueries) {
-            val rr = DNSRR(q.domain, q.dnsServer, ArrayList(), ArrayList())
+            val aRecords = ArrayList<String>()
+            val cNames = ArrayList<String>()
             // a record
             if (q.aRecordLookup.result == Lookup.SUCCESSFUL) {
-                rr.aRecord.addAll(
+                aRecords.addAll(
                     q.aRecordLookup.answers.map { it.rdataToString() }
                 )
             }
             // cname
             if (q.cNameLookup.result == Lookup.SUCCESSFUL) {
-                rr.cName.addAll(
+                cNames.addAll(
                     q.cNameLookup.answers.map { it.rdataToString() }
                 )
             }
-            results.add(rr)
+            results.add(DNSRR(q.domain, q.dnsServer, aRecords, cNames))
         }
         return results
     }
