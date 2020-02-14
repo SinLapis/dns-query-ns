@@ -33,6 +33,7 @@ tasks {
         mergeServiceFiles()
         manifest {
             attributes(mapOf("Main-Class" to "org.ndp.dns_query_ns.Main"))
+            attributes(mapOf("Multi-Release" to "true"))
         }
     }
 }
